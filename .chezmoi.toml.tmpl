@@ -1,3 +1,5 @@
 {{- $email := promptString "email" -}}
+{{- $codeDir := promptString "Full path of directory for storing source code (no trailing slash)" -}}
 [data]
     email = "{{ $email }}"
+    codeDir = "{{ $codeDir }}"
