@@ -53,6 +53,8 @@ source $ZSH/oh-my-zsh.sh
 export GOPATH={{ .codedir }}/golang
 export EDITOR='vim'
 export ARCHFLAGS="-arch x86_64"
+export ZSH_COLORIZE_STYLE='solarized-light'
+export ZSH_COLORIZE_CHROMA_FORMATTER='terminal256'
 
 typeset -U path
 path=($HOME/bin $GOPATH/bin $path)
