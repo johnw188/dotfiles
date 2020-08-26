@@ -181,12 +181,14 @@ function _p9k_worker_start() {
     _p9k__worker_file_prefix=${TMPDIR:-/tmp}/p10k.worker.$EUID.$sysparams[pid].$EPOCHSECONDS
 
     sysopen -r -o cloexec -u _p9k__worker_resp_fd <(
+      exec 0</dev/null
       if [[ -n $_POWERLEVEL9K_WORKER_LOG_LEVEL ]]; then
         exec 2>$_p9k__worker_file_prefix.log
         setopt xtrace
       else
         exec 2>/dev/null
       fi
+      builtin cd -q /                    || return
       zmodload zsh/zselect               || return
       ! { zselect -t0 || (( $? != 1 )) } || return
       local _p9k_worker_pgid=$sysparams[pid]

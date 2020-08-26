@@ -46,6 +46,10 @@ export ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git safe-paste colorize zsh-syntax-highlighting)
 
+# Disable compfix to deal with permissions issues
+# MUST BE PLACED BEFORE source $ZSH/oh-my-zsh.sh
+ZSH_DISABLE_COMPFIX=true
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

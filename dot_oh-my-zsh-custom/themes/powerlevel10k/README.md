@@ -266,7 +266,7 @@ enable as many segments as you like. It won't slow down your prompt or Zsh start
 | `os_icon` | your OS logo (apple for macOS, swirl for debian, etc.) |
 | `dir` | current working directory |
 | `vcs` | Git repository status |
-| `prompt_char` | multi-functional prompt symbol; changes depending on vi mode: `❯`, `❮`, `Ⅴ`, `▶` for insert, command, visual and replace mode respectively; turns red on error |
+| `prompt_char` | multi-functional prompt symbol; changes depending on vi mode: `❯`, `❮`, `V`, `▶` for insert, command, visual and replace mode respectively; turns red on error |
 | `context` | user@hostname |
 | `status` | exit code of the last command |
 | `command_execution_time` | duration (wall time) of the last command |
@@ -295,6 +295,7 @@ enable as many segments as you like. It won't slow down your prompt or Zsh start
 | `dotnet_version` | [dotnet](https://dotnet.microsoft.com) version |
 | `php_version` | [php](https://www.php.net/) version |
 | `laravel_version` | [laravel php framework](https://laravel.com/) version |
+| `java_version` | [java](https://www.java.com/) version |
 | `package` | `name@version` from [package.json](https://docs.npmjs.com/files/package.json) |
 | `kubecontext` | current [kubernetes](https://kubernetes.io/) context |
 | `terraform` | [terraform](https://www.terraform.io) workspace |
@@ -350,6 +351,14 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
 ```
 
+Users in mainland China can use the official mirror on gitee.com for faster download.<br>
+中国大陆用户可以使用 gitee.com 上的官方镜像加速下载.
+
+```zsh
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
+```
+
 This is the simplest kind of installation and it works even if you are using a plugin manager. Just
 make sure to disable the current theme in your plugin manager. See
 [troubleshooting](#cannot-make-powerlevel10k-work-with-my-plugin-manager) for help.
@@ -357,7 +366,14 @@ make sure to disable the current theme in your plugin manager. See
 ### Oh My Zsh
 
 ```zsh
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+Users in mainland China can use the official mirror on gitee.com for faster download.<br>
+中国大陆用户可以使用 gitee.com 上的官方镜像加速下载.
+
+```zsh
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
 Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`.
@@ -410,10 +426,10 @@ echo 'source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
 
 ### Arch Linux
 
-```zsh
-pacman -Sy --noconfirm zsh-theme-powerlevel10k
-echo 'source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme' >>! ~/.zshrc
-```
+There is [zsh-theme-powerlevel10k](
+  https://www.archlinux.org/packages/community/any/zsh-theme-powerlevel10k/) community package and
+[zsh-theme-powerlevel10k-git](https://aur.archlinux.org/packages/zsh-theme-powerlevel10k-git/) AUR
+package. Both are old and broken. **Do not use them.**
 
 ## Configuration
 
@@ -531,6 +547,9 @@ applications on your system. Configure your terminal to use this font:
   value to `MesloLGS NF` for every profile.
 - **Termux**: Type `p10k configure` and answer `Yes` when asked whether to install
   *Meslo Nerd Font*.
+- **Blink** Type `config`, go to *Appearance*, tap *Add a new font*, tap *Open Gallery*, select
+  *MesloLGS NF.css*, tap *import* and type `exit` in the home view to reload the font.
+- **Terminus**: Open *Settings → Appearance* and set *Font* to `MesloLGS NF`.
 
 **IMPORTANT:** Run `p10k configure` after changing terminal font. The old `~/.p10k.zsh` may work
 incorrectly with the new font.
@@ -784,7 +803,7 @@ When using Lean, Classic or Rainbow style, `~/.p10k.zsh` contains the following 
 ```zsh
 # Don't show Git status in prompt for repositories whose workdir matches this pattern.
 # For example, if set to '~', the Git repository at $HOME/.git will be ignored.
-# Multiple patterns can be combined with '|': '~|~/some/dir'.
+# Multiple patterns can be combined with '|': '~(|/foo)|/bar/baz/*'.
 typeset -g POWERLEVEL9K_VCS_DISABLED_WORKDIR_PATTERN='~'
 ```
 
@@ -797,7 +816,7 @@ tl;dr: When Git status in prompt is greyed out, it means Powerlevel10k is curren
 up-to-date Git status in the background. Prompt will get automatically refreshed when this
 computation completes.
 
-When your current directory is withing a Git repository, Powerlevel10k computes up-to-date Git
+When your current directory is within a Git repository, Powerlevel10k computes up-to-date Git
 status after every command. If the repository is large, or the machine is slow, this computation
 can take quite a bit of time. If it takes longer than 20 milliseconds (configurable via
 `POWERLEVEL9K_VCS_MAX_SYNC_LATENCY_SECONDS`), Powerlevel10k displays the last known Git status in
@@ -1027,7 +1046,7 @@ Similarly, if you enable transient prompt, sparse prompt (with an empty line bef
 great choice.
 
 If you are using vi keymap, choose prompt with `prompt_char` in it (shown as green `❯` in the
-wizard). This symbol changes depending on vi mode: `❯`, `❮`, `Ⅴ`, `▶` for insert, command, visual
+wizard). This symbol changes depending on vi mode: `❯`, `❮`, `V`, `▶` for insert, command, visual
 and replace mode respectively. When a command fails, the symbol turns red. *Lean* style always has
 `prompt_char` in it. *Rainbow* and *Classic* styles have it only in the two-line configuration
 without left frame.
@@ -1062,14 +1081,6 @@ command is reflected in the *next* prompt.
 For details, see [this post on /r/zsh](
 https://www.reddit.com/r/zsh/comments/eg49ff/powerlevel10k_prompt_history_exit_code_colors/fc5huku).
 
-### Is there an AUR package for Powerlevel10k?
-
-There is [zsh-theme-powerlevel10k-git](
-  https://aur.archlinux.org/packages/zsh-theme-powerlevel10k-git/). It's owned by an unaffiliated
-volunteer.
-
-There is also an [official Powerlevel10k package](#arch-linux) for Pacman.
-
 ### What is the minimum supported Zsh version?
 
 Zsh 5.1 or newer should work. Fast startup requires Zsh >= 5.4.
@@ -1091,7 +1102,10 @@ Syntax highlighting, where present, was provided by [zsh-syntax-highlighting](
 [The recommended font](#meslo-nerd-font-patched-for-powerlevel10k) is the product of many
 individuals. Its origin is *Bitstream Vera Sans Mono*, which has given birth to *Menlo*, which in
 turn has spawned *Meslo*. Finally, extra glyphs have been added to *Meslo* with scripts forked
-from Nerd Fonts.
+from Nerd Fonts. The final font is released under the terms of
+[Apache License](
+  https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20License.txt).
+
 
 MesloLGS NF font can be recreated with the following command (requires `git` and `docker`):
 
@@ -1102,6 +1116,84 @@ cd nerd-fonts
 ```
 
 If everything goes well, four `ttf` files will appear in `./out`.
+
+### How to package Powerlevel10k for distribution?
+
+If you want to package Powerlevel10k, it's best to do it based off [releases](
+  https://github.com/romkatv/powerlevel10k/releases).
+
+The following code should work without patching anything in Powerlevel10k sources. If it doesn't,
+please open an issue.
+
+**IMPORTANT:** *Change version to what you want to package. This example doesn't get updated when
+new versions are released.*
+
+```zsh
+# Download and extract Powerlevel10k tarball.
+powerlevel10k_version=1.9.0  # IMPORTANT: CHANGE VERSION TO WHAT YOU WANT
+wget https://github.com/romkatv/powerlevel10k/archive/v"$powerlevel10k_version".tar.gz
+tar -xzf v"$powerlevel10k_version".tar.gz
+cd powerlevel10k-"$powerlevel10k_version"
+
+# Download libgit2 tarball and compile gitstatusd.
+./gitstatus/build -w
+
+# Post-process.
+rm ./gitstatus/deps/libgit2-*.tar.gz
+for file in *.zsh-theme internal/*.zsh gitstatus/*.zsh gitstatus/install; do
+  zsh -fc "emulate zsh -o no_aliases && zcompile -R -- $file.zwc $file"
+done
+```
+
+This needs binutils, cmake, gcc, g++, git, GNU make, wget, zsh and either shasum or sha256sum.
+
+Once build completes, *do not delete or move any files*. Package the whole directory as is. Don't
+add the directory or any of its subdirectories to `PATH`.
+
+You probably don't want to build in docker, so don't pass `-d` to `./gitstatus/build`.
+
+gitstatus depends on a [custom fork of libgit2](https://github.com/romkatv/libgit2/). When you run
+`./gitstatus/build -w`, it'll automatically download the appropriate libgit2 tarball and verify its
+sha256. If you want to separate the downloading of source tarballs from compilation, you can
+download the libgit2 tarball manually and invoke `./gitstatus/build` without `-w`.
+
+```zsh
+# Download and extract Powerlevel10k tarball.
+powerlevel10k_version=1.9.0  # IMPORTANT: CHANGE VERSION TO WHAT YOU WANT
+wget https://github.com/romkatv/powerlevel10k/archive/v"$powerlevel10k_version".tar.gz
+tar -xzf v"$powerlevel10k_version".tar.gz
+cd powerlevel10k-"$powerlevel10k_version"
+
+# Download libgit2 tarball and place it where ./gitstatus/build expects it.
+. ./gitstatus/build.info
+libgit2_path=./gitstatus/deps/libgit2-"$libgit2_version".tar.gz
+libgit2_url=https://github.com/romkatv/libgit2/archive/"$libgit2_version".tar.gz
+wget -O "$libgit2_path" "$libgit2_url"
+
+# Compile gitstatusd.
+./gitstatus/build
+
+# Post-process.
+rm ./gitstatus/deps/libgit2-*.tar.gz
+for file in *.zsh-theme internal/*.zsh gitstatus/*.zsh gitstatus/install; do
+  zsh -fc "emulate zsh -o no_aliases && zcompile -R -- $file.zwc $file"
+done
+```
+
+Note that the URL and the content of the libgit2 tarball are fully defined by the main Powerlevel10k
+tarball. Thus, you can set URLs and sha256 checksums of the two tarball in the same place (package
+definition) and update them at the same time when bumping package version. In other words, you don't
+have to extract `libgit2_version` programmatically. You can manually copy it from [build.info](
+  https://github.com/romkatv/powerlevel10k/blob/master/gitstatus/build.info) to your package
+definition, if you prefer.
+
+Powerlevel10k has an embedded version of [gitstatus](https://github.com/romkatv/gitstatus). It must
+stay that way. If you decide to package both of them, follow the respective instructions from each
+project. The embedded gitstatus in Powerlevel10k won't conflict with the standalone gitstatus. They
+can have different versions and can coexist within the same Zsh process. Do not attempt to
+surgically remove gitstatus from Powerlevel10k, package the result and then force Powerlevel10k to
+use a separately packaged gitstatus. Instead, treat Powerlevel10k and gitstatus as independent
+projects that don't depend on each other.
 
 ## Troubleshooting
 
@@ -1407,18 +1499,20 @@ This method of installation won't make anything slower or otherwise sub-par.
 
 ### Directory is difficult to see in prompt when using Rainbow style
 
-In Classic style the current working directory is shown with bright white white text on blue
-background. The white is fixed and always looks the same but the appearance of "blue" is defined
-by your terminal color palette. If it's very light, it's difficult to see white text on it.
+In Rainbow style the current working directory is shown with bright white text on blue background.
+The white is fixed and always looks the same but the appearance of "blue" is defined by your
+terminal color palette. If it's very light, it may be difficult to see white text on it.
 
 There are several ways to fix this.
 
 - Type `p10k configure` and choose a more readable prompt style.
 - [Change terminal color palette](#change-the-color-palette-used-by-your-terminal). Try Tango Dark
   or Solarized Dark, or change just the "blue" color.
-- [Change directory background color](#set-colors-through-Powerlevel10k-configuration-parameters).
-  The parameter you are looking for is called `POWERLEVEL9K_DIR_BACKGROUND`. You can find it in
-  in `~/.p10k.zsh`. Uncomment it if it's commented out and try different values.
+- [Change directory background and/or foreground color](#set-colors-through-Powerlevel10k-configuration-parameters).
+  The parameters you are looking for are called `POWERLEVEL9K_DIR_BACKGROUND`,
+  `POWERLEVEL9K_DIR_FOREGROUND`, `POWERLEVEL9K_DIR_SHORTENED_FOREGROUND`,
+  `POWERLEVEL9K_DIR_ANCHOR_FOREGROUND` and `POWERLEVEL9K_DIR_ANCHOR_BOLD`. You can find them in
+  in `~/.p10k.zsh`.
 
 ### Horrific mess when resizing terminal window
 
@@ -1520,6 +1614,8 @@ The bug described above has been fixed in [this branch](
 cursor) terminal capability before printing prompt and `rc` (restore cursor) to move cursor back
 to the same position when prompt needs to be refreshed.
 
+*Note*: The patch doesn't work on Alacritty. On the plus side, it doesn't make things worse.
+
 There are two alternative approaches to fixing the bug that may seem to work at fight glance but in
 fact don't:
 
@@ -1540,7 +1636,7 @@ There is no ETA for the patch making its way into upstream Zsh. See [discussion]
 There are a few mitigation options for this issue.
 
 - Apply [the patch](#zsh-patch) and [rebuild Zsh from source](
-    https://github.com/zsh-users/zsh/blob/master/INSTALL).
+    https://github.com/zsh-users/zsh/blob/master/INSTALL). It won't help if you are using Alacritty.
 - Disable text reflowing on window resize in terminal settings. If your terminal doesn't have this
   setting, try a different terminal.
 - Avoid long lines between the start of prompt and cursor.
@@ -1660,10 +1756,10 @@ typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='${P9K_CONTENT}'  # not bold
   - [What is the best prompt style in the configuration wizard?](#what-is-the-best-prompt-style-in-the-configuration-wizard)
   - [How to make Powerlevel10k look like robbyrussell Oh My Zsh theme?](#how-to-make-powerlevel10k-look-like-robbyrussell-oh-my-zsh-theme)
   - [Can prompts for completed commands display error status for *those* commands instead of the commands preceding them?](#can-prompts-for-completed-commands-display-error-status-for-those-commands-instead-of-the-commands-preceding-them)
-  - [Is there an AUR package for Powerlevel10k?](#is-there-an-aur-package-for-powerlevel10k)
   - [What is the minimum supported Zsh version?](#what-is-the-minimum-supported-zsh-version)
   - [How were these screenshots and animated gifs created?](#how-were-these-screenshots-and-animated-gifs-created)
   - [How was the recommended font created?](#how-was-the-recommended-font-created)
+  - [How to package Powerlevel10k for distribution?](#how-to-package-powerlevel10k-for-distribution)
 - [Troubleshooting](#troubleshooting)
   - [Question mark in prompt](#question-mark-in-prompt)
   - [Icons, glyphs or powerline symbols don't render](#icons-glyphs-or-powerline-symbols-dont-render)
